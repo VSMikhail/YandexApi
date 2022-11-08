@@ -30,11 +30,13 @@ class YaUploader:
     def upload_list(self, files_list):
         for file in files_list:
             upload_link = self.ya_upload_link(file)
-            with open(file, 'rb') as file_obj:
-                resp = requests.put(upload_link, data=file_obj, params={'overwrite': 'true'})
-                if resp.status_code == 201:
-                    print('Файл загружен успешно со статус-кодом: 201')
-
+            if upload_link:
+                with open(file, 'rb') as file_obj:
+                    resp = requests.put(upload_link, data=file_obj, params={'overwrite': 'true'})
+                    if resp.status_code == 201:
+                        print('Файл загружен успешно со статус-кодом: 201')
+            else:
+                print('Ссылка на загрузка не существует')
 
 inst = YaUploader(token)
 file_list = []
